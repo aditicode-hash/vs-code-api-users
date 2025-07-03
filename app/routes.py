@@ -88,8 +88,10 @@ async def create_api_key(mongo_id: str):
     else:
         key_doc["keys"].append({"key": new_key, "status": "valid"})
         await db.keys.update_one({"id": mongo_id}, {"$set": {"keys": key_doc["keys"]}})
+    print(",")
 
     key_doc_serialized = convert_object_ids(key_doc)
+    
 
     # Remove old entry from list and push updated version
     old_entries = await redis_client.lrange("api_keys_list", 0, -1)
