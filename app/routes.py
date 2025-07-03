@@ -88,7 +88,7 @@ async def create_api_key(mongo_id: str):
     else:
         key_doc["keys"].append({"key": new_key, "status": "valid"})
         await db.keys.update_one({"id": mongo_id}, {"$set": {"keys": key_doc["keys"]}})
-    print(",")
+    print(","),print(",")
 
     key_doc_serialized = convert_object_ids(key_doc)
     
