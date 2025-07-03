@@ -31,6 +31,7 @@ def generate_api_key(length=20):
     chars = string.ascii_letters + string.digits + "!@#$%^&*()_+-="
     return ''.join(secrets.choice(chars) for _ in range(length))
 
+
 # Create a new user
 @router.post("/users")
 async def create_user(user: User):
@@ -50,6 +51,7 @@ async def create_user(user: User):
         "id": mongo_id,
         "keys": [{"key": api_key, "status": "valid"}]
     })
+    print(",")
 
     # ✅ Store only in Redis lists (no hashes)
     user_json = json.dumps(convert_object_ids(user_dict), sort_keys=True)
@@ -149,3 +151,5 @@ async def get_user(user_id: int):
         if entry_dict.get("id") == user_id:
             return entry_dict
     raise HTTPException(status_code=404, detail="User not found in Redis")
+
+
